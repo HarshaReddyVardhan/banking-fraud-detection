@@ -13,7 +13,8 @@ COPY package*.json ./
 RUN npm install
 
 # Copy source code
-COPY . .
+COPY tsconfig.json ./
+COPY src ./src
 
 # Build TypeScript
 RUN npm run build
@@ -43,6 +44,11 @@ ENV PORT=3004
 
 # Expose port
 EXPOSE 3004
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3004/api/v1/health', (r) => r.statusCode === 200 ? process.exit(0) : process.exit(1))"
+
 
 # Use dumb-init for proper signal handling
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
