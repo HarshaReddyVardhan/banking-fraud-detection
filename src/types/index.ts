@@ -286,7 +286,7 @@ export interface MLFeatures {
  */
 export interface BlocklistEntry {
     id: string;
-    type: 'ACCOUNT' | 'DEVICE' | 'IP' | 'RECIPIENT';
+    type: 'ACCOUNT' | 'DEVICE' | 'IP' | 'RECIPIENT' | 'EMAIL' | 'PHONE';
     value: string;
     reason: string;
     addedBy: string;

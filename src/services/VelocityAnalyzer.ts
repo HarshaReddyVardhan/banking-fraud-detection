@@ -31,8 +31,7 @@ export class VelocityAnalyzer {
     async analyze(
         userId: string,
         transactionId: string,
-        amount: number,
-        recipientId: string
+        amount: number
     ): Promise<RiskFactor> {
         const reasons: string[] = [];
         let totalScore = 0;
@@ -87,7 +86,7 @@ export class VelocityAnalyzer {
             }
 
             // Check for amount velocity spikes (10x normal in short window)
-            const amountSpike = await this.checkAmountSpike(userId, velocityData, amount);
+            const amountSpike = await this.checkAmountSpike(velocityData, amount);
             if (amountSpike.detected) {
                 totalScore += amountSpike.score;
                 reasons.push(amountSpike.reason);
@@ -95,8 +94,6 @@ export class VelocityAnalyzer {
 
             // Check for rapid sequential transfers to different recipients
             const rapidDiverseTransfers = await this.checkRapidDiverseTransfers(
-                userId,
-                recipientId,
                 velocityData
             );
             if (rapidDiverseTransfers.detected) {
@@ -185,7 +182,6 @@ export class VelocityAnalyzer {
      * Check for unusual amount spikes
      */
     private async checkAmountSpike(
-        userId: string,
         velocityData: VelocityData,
         currentAmount: number
     ): Promise<{ detected: boolean; score: number; reason: string }> {
@@ -210,8 +206,6 @@ export class VelocityAnalyzer {
      * Check for rapid transfers to multiple different recipients
      */
     private async checkRapidDiverseTransfers(
-        userId: string,
-        recipientId: string,
         velocityData: VelocityData
     ): Promise<{ detected: boolean; score: number; reason: string }> {
         const result = { detected: false, score: 0, reason: '' };

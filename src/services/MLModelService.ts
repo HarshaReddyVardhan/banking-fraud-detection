@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import crypto from 'crypto';
 import { config } from '../config/config';
 import { logger, fraudLogger } from '../middleware/requestLogger';

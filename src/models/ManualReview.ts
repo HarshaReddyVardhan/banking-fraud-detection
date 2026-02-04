@@ -67,7 +67,7 @@ export class ManualReview extends Model<ManualReviewAttributes, ManualReviewCrea
      * Complete the review with a decision
      */
     async completeReview(
-        reviewerId: string,
+        _reviewerId: string,
         decision: 'APPROVED' | 'REJECTED' | 'ESCALATED' | 'INFO_REQUESTED',
         reason: string,
         notes?: string

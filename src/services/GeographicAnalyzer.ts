@@ -9,12 +9,10 @@ import { RiskFactor, GeoLocation, UserTransactionHistory } from '../types';
  */
 export class GeographicAnalyzer {
     private readonly impossibleTravelHours: number;
-    private readonly maxReasonableSpeedKmH: number;
     private readonly weight: number;
 
     constructor() {
         this.impossibleTravelHours = config.analysis.geographic.impossibleTravelHours;
-        this.maxReasonableSpeedKmH = config.analysis.geographic.maxReasonableSpeedKmH;
         this.weight = config.thresholds.geographicWeight;
     }
 
@@ -78,7 +76,7 @@ export class GeographicAnalyzer {
 
             // Check for VPN/proxy indicators
             if (currentLocation.ip) {
-                const vpnCheck = await this.checkVPNIndicators(currentLocation.ip);
+                const vpnCheck = await this.checkVPNIndicators();
                 if (vpnCheck.detected) {
                     totalScore += vpnCheck.score;
                     reasons.push(vpnCheck.reason);
@@ -309,7 +307,6 @@ export class GeographicAnalyzer {
      * Check for VPN/proxy indicators
      */
     private async checkVPNIndicators(
-        ip: string
     ): Promise<{ detected: boolean; score: number; reason: string }> {
         // Simplified VPN detection - would use external VPN detection service
         // Check for common datacenter IP ranges, TOR exit nodes, etc.

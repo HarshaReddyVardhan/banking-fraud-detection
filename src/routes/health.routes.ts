@@ -5,7 +5,7 @@ import { config } from '../config/config';
 
 const router = Router();
 
-router.get('/health', async (req: Request, res: Response) => {
+router.get('/health', async (_req: Request, res: Response) => {
     const redisConnected = cacheService.isRedisConnected();
     const kafkaConnected = eventConsumer.isConsumerConnected();
 

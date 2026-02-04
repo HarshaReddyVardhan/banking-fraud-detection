@@ -10,9 +10,7 @@ import {
     TransactionCreatedEvent,
     FraudAnalysisResult,
     RiskFactor,
-    AnalysisStatus,
     RiskDecision,
-    ConfidenceLevel,
     MLFeatures,
     GeoLocation
 } from '../types';
@@ -84,8 +82,7 @@ export class FraudDetectionService {
                 this.safeAnalyze(() => velocityAnalyzer.analyze(
                     transaction.userId,
                     transaction.transactionId,
-                    transaction.amount,
-                    transaction.recipientId
+                    transaction.amount
                 ), 'VELOCITY'),
 
                 this.safeAnalyze(() => deviceAnalyzer.analyze(
@@ -93,7 +90,6 @@ export class FraudDetectionService {
                     transaction.transactionId,
                     transaction.device?.fingerprint,
                     transaction.device?.userAgent,
-                    transaction.device?.deviceId,
                     knownDevices,
                     userHistory
                 ), 'DEVICE'),
@@ -118,11 +114,10 @@ export class FraudDetectionService {
                 this.safeAnalyze(() => timeAnalyzer.analyze(
                     transaction.userId,
                     transaction.transactionId,
-                    new Date(transaction.timestamp),
+                    new Date(event.timestamp),
                     userHistory,
                     preferredHours,
-                    preferredDays,
-                    undefined // Timezone
+                    preferredDays
                 ), 'TIME')
             ]);
 
@@ -159,8 +154,7 @@ export class FraudDetectionService {
                 analysisId,
                 transaction,
                 riskFactors,
-                mlResult?.modelVersion || 'unknown',
-                correlationId
+                mlResult?.modelVersion || 'unknown'
             );
 
             // 6. Persist Result
@@ -248,8 +242,7 @@ export class FraudDetectionService {
         analysisId: string,
         transaction: any,
         riskFactors: RiskFactor[],
-        modelVersion: string,
-        correlationId?: string
+        modelVersion: string
     ): FraudAnalysisResult {
         let totalScore = 0;
 

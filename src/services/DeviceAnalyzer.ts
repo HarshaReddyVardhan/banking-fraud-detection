@@ -27,7 +27,6 @@ export class DeviceAnalyzer {
         transactionId: string,
         deviceFingerprint: string | undefined,
         userAgent: string | undefined,
-        deviceId: string | undefined,
         knownDevices: string[],
         userHistory: UserTransactionHistory | null
     ): Promise<RiskFactor> {

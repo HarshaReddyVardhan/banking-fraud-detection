@@ -227,7 +227,7 @@ export class EventPublisher {
      */
     private async publish(
         topic: string,
-        event: Record<string, unknown>,
+        event: any,
         key: string
     ): Promise<RecordMetadata[] | null> {
         if (!this.producer || !this.isConnected) {

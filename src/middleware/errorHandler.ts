@@ -46,7 +46,7 @@ export class ModelLoadError extends AppError {
 }
 
 export class BlocklistMatchError extends AppError {
-    constructor(type: string, value: string) {
+    constructor(type: string, _value: string) {
         super(`Blocklist match: ${type}`, 403, 'BLOCKLIST_MATCH');
     }
 }
@@ -89,7 +89,7 @@ export function errorHandler(
     err: Error,
     req: Request,
     res: Response,
-    next: NextFunction
+    _next: NextFunction
 ): void {
     const correlationId = (req as { correlationId?: string }).correlationId;
 
@@ -149,7 +149,7 @@ export function errorHandler(
  */
 export function notFoundHandler(
     req: Request,
-    res: Response,
+    _res: Response,
     next: NextFunction
 ): void {
     const error = new AppError(`Route not found: ${req.method} ${req.path}`, 404, 'NOT_FOUND');

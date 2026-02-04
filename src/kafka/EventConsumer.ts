@@ -17,7 +17,7 @@ export class EventConsumer {
     private consumer: Consumer | null = null;
     private isConnected: boolean = false;
     private isRunning: boolean = false;
-    private readonly serviceName = config.serviceName;
+
     private messageHandler: TransactionEventHandler | null = null;
 
     constructor() {

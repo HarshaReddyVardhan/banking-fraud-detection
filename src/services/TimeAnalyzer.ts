@@ -22,8 +22,7 @@ export class TimeAnalyzer {
         timestamp: Date,
         userHistory: UserTransactionHistory | null,
         preferredHours: number[],
-        preferredDays: number[],
-        userTimezone?: string
+        preferredDays: number[]
     ): Promise<RiskFactor> {
         const reasons: string[] = [];
         let totalScore = 0;
@@ -33,14 +32,14 @@ export class TimeAnalyzer {
             const day = timestamp.getDay(); // 0 = Sunday
 
             // Check for unusual hour based on user's patterns
-            const unusualHour = this.checkUnusualHour(hour, preferredHours, userHistory);
+            const unusualHour = this.checkUnusualHour(hour, preferredHours);
             if (unusualHour.detected) {
                 totalScore += unusualHour.score;
                 reasons.push(unusualHour.reason);
             }
 
             // Check for unusual day
-            const unusualDay = this.checkUnusualDay(day, preferredDays, userHistory);
+            const unusualDay = this.checkUnusualDay(day, preferredDays);
             if (unusualDay.detected) {
                 totalScore += unusualDay.score;
                 reasons.push(unusualDay.reason);
@@ -123,8 +122,7 @@ export class TimeAnalyzer {
      */
     private checkUnusualHour(
         hour: number,
-        preferredHours: number[],
-        userHistory: UserTransactionHistory | null
+        preferredHours: number[]
     ): { detected: boolean; score: number; reason: string } {
         // If no preferred hours established, use global patterns
         if (preferredHours.length === 0) {
@@ -169,8 +167,7 @@ export class TimeAnalyzer {
      */
     private checkUnusualDay(
         day: number,
-        preferredDays: number[],
-        userHistory: UserTransactionHistory | null
+        preferredDays: number[]
     ): { detected: boolean; score: number; reason: string } {
         if (preferredDays.length === 0) {
             return { detected: false, score: 0, reason: '' };

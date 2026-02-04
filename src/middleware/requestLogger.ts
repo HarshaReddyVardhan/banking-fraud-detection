@@ -254,7 +254,7 @@ export const fraudLogger = {
             userId,
             transactionId,
             reason,
-            ...redactSensitiveData(details),
+            ...(redactSensitiveData(details) as any),
         });
     },
 
@@ -272,7 +272,7 @@ export const fraudLogger = {
             event: 'audit',
             action,
             userId,
-            ...redactSensitiveData(details),
+            ...(redactSensitiveData(details) as any),
         });
     },
 };

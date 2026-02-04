@@ -1,4 +1,4 @@
-import Redis from 'ioredis';
+import Redis, { RedisOptions } from 'ioredis';
 import { config } from '../config/config';
 import { logger } from '../middleware/requestLogger';
 import { UserTransactionHistory, DeviceInfo, RecipientInfo, BlocklistEntry } from '../types';
@@ -24,7 +24,7 @@ export class CacheService {
         if (this.isConnected) return;
 
         try {
-            const options: Redis.RedisOptions = {
+            const options: RedisOptions = {
                 host: config.redis.host,
                 port: config.redis.port,
                 db: config.redis.db,
